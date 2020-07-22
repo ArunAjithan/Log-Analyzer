@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <style>
+        {
+          box-sizing: border-box;
+        }
+
+        .column {
+          float: left;
+          width: 40.33%;
+          padding: 5px;
+        }
+
+        /* Clearfix (clear floats) */
+        .row::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+        </style>
+        <meta charset="UTF-8">
+        <title>Graphical Analysis</title>
+        <link   rel  ="stylesheet"       href ="{% static 'bootstrap/bootstrap.min.css' %}">
+        <link   rel  ="stylesheet"       href ="{% static 'css/styles.css' %}">
+        <script type ="text/javascript"  src  ="{% static 'jquery/jquery.js' %}"></script>
+    </head>
+    <body>
+        <h1 class="display-4">Graphical Analysis</h1>
+        <div class="row">
+          <div class="column">
+            <img src="{% static 'images/Abend count piechart.png' %}">
+          </div>
+          <div class="column">
+            <img src="{% static 'images/timeplotgraph.png' %}">
+          </div>
+          <div class="column">
+            <img src="{% static 'images/Utility count.png' %}">
+          </div>
+        </div>
+    </body>
+</html>

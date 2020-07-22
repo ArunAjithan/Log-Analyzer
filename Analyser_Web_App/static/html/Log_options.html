@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LogAnalysis</title>
+    <link   rel  ="stylesheet"       href ="{%static 'bootstrap/bootstrap.min.css' %}">
+    <link   rel  ="stylesheet"       href ="{% static 'css/styles.css' %}">
+    <script type ="text/javascript"  src  ="{% static 'jquery/jquery.js' %}"></script>
+</head>
+<body background="{% static 'images/MainFrame_img.jpg' %}" style ="background-size:cover;" >
+    <div style="background-color:RGB(233, 150, 122, 0.77)" class="jumbotron jumbotron-fluid">
+        <center><h1 class="display-4">Log Analyser</h1></center>
+        <br>
+        <br>
+        <form>
+            <div class="d-flex justify-content-between">
+                <button id="knowledgebuilder" class="btn btn-primary btn-lg" type="button">knowledgebuilder</button>
+
+                <button id="AbendAnalysis" class="btn btn-primary btn-lg" type="button">AbendAnalysis</button>
+
+                <button id="Graphs" class="btn btn-primary btn-lg" type="button">Graphs</button>
+            </div>
+        </form>
+        <br><br>
+    </div>
+</body>
+</html>
+<script type ="text/javascript"  src  ="{% static 'jquery_ajax/Log_options.js' %}"></script>

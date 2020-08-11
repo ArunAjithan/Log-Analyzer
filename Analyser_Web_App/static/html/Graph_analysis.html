@@ -26,17 +26,21 @@
         <link   rel  ="stylesheet"       href ="{% static 'css/styles.css' %}">
         <script type ="text/javascript"  src  ="{% static 'jquery/jquery.js' %}"></script>
     </head>
-    <body>
-        <h1 class="display-4">Graphical Analysis</h1>
+     <body style="background-color:skyblue;">
+     <marquee scrollamount="10"
+        direction="left"
+        behavior="scroll">
+         <h1 class="display-4"><b>Graphical Analysis</b></h1>
+     </marquee>
         <div class="row">
           <div class="column">
-            <img src="{% static 'images/Abend count piechart.png' %}">
+            <img src="{% static 'images/piechart.png' %}">
           </div>
           <div class="column">
-            <img src="{% static 'images/timeplotgraph.png' %}">
+            <img src="{% static 'images/typecount.png' %}">
           </div>
           <div class="column">
-            <img src="{% static 'images/Utility count.png' %}">
+            <img src="{% static 'images/jobcpu.png' %}">
           </div>
         </div>
     </body>

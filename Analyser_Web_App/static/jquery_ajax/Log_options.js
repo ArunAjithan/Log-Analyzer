@@ -1,20 +1,6 @@
-$("#knowledgebuilder").click(function(e)
+$("#insert").click(function(e)
 {
-    e.preventDefault();
-    $.ajax(
-    {
-        type:'GET',
-        url:'http://127.0.0.1:5000/legacyknowledgebuilder',
-
-        success: function(response)
-        {
-            alert(response);
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown)
-        {
-            alert('Please try again');
-        }
-    })
+     window.location.href='/Insert_mongodb';
 });
 
 

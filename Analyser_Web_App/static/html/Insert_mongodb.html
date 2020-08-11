@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Mongo Db insert</title>
+    <style>
+        h1 {text-align: center;}
+        p {text-align: center;}
+        div {text-align: center;}
+    </style>
+        <link   rel  ="stylesheet"       href ="{% static 'bootstrap/bootstrap.min.css' %}">
+        <link   rel  ="stylesheet"       href ="{% static 'css/styles.css' %}">
+        <script type ="text/javascript"  src  ="{% static 'jquery/jquery.js' %}"></script>
+</head>
+<body background="{% static 'images/MainFrame_img.jpg' %}" style ="background-size:cover;" >
+    <div style="background-color:RGB(233, 150, 122, 0.77)" class="jumbotron jumbotron-fluid">
+        <form name="search" action = "" method = "post">{% csrf_token %}
+               Provide path of the file that you want to insert into MongoDB: <input type="text" name="myvalue">
+               <input type="submit" value="Submit">
+         </form>
+    </div>
+</body>
+</html>

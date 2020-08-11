@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import datetime
 
+
 class AnalyseLogs:
 
     Key_words = ['STARTED - TIME', 'ENDED - TIME', 'ENDED BY CC 0010 - TIME', 'USERID', '$HASP373', 'CLASS']
@@ -27,10 +28,11 @@ class AnalyseLogs:
     ab_list_data = list()
     job_info = list()
     temp_job_info = list()
-    jes_df = pd.read_excel("C:\\Users\\m1055934\\PycharmProjects\\LOG_ANALYSER_WEBAPP_0.2\Solution Catalog.xlsx", dtype=str)
+    jes_df = pd.read_excel("C:\\Users\\m1055934\\PycharmProjects\\LOG_ANALYSER_WEBAPP_0.2\\Solution Catalog.xlsx",
+                           dtype=str)
     jescodes = jes_df["Token Identifier"].tolist()
 
-    def extract_keyword(self, data_list):
+    def extract_keyword(self, data_list, ext_file_name):
 
         # print('EXTRACT KEYWORD FUNTION')
         # print(self.Key_words)
@@ -58,11 +60,10 @@ class AnalyseLogs:
 
         start_time = self.key_result[4]
         end_time = self.key_result[5]
-        # print( start_time )
-        # print( end_time )
+
         fmt = ' %H.%M.%S'
         runtime = datetime.strptime(end_time, fmt) - datetime.strptime(start_time, fmt)
-        # print( tdelta )
+
         self.key_result.append(runtime)
         for line in data_list:
             line = line.rstrip('\n')
@@ -74,30 +75,29 @@ class AnalyseLogs:
         self.cpu = self.cpu.replace(" HR  ", ":")
         self.cpu = self.cpu.replace(" MIN  ", ":")
         self.cpu = self.cpu.replace(" SEC", " ")
-        print(self.cpu)
+        # print(self.cpu)
         self.key_result.append(self.cpu)
-        # print(self.key_result)
+        self.key_result.append(ext_file_name)
+
 
     def extarct_steps(self, data_list):
 
-        # print('extarct_steps function')
         d = list()
         for line in data_list:
             line = line.rstrip('\n')
             if line.__contains__('EXEC PGM'):
                 d.append(line)
         self.total_steps = self.total_steps + d
-        # print(self.total_steps)
+
 
     def extract_utility(self, data_list):
 
-        # print('extract_utility')
+
         for line in data_list:
             line = line.rstrip('\n')
             if line.__contains__('EXEC PGM'):
                 index = line.find('EXEC PGM')
-                # print(index)
-                # print(len('EXEC PGM'))
+
                 if index != -1:
 
                     temp_string = line[index + len('EXEC PGM') + 1:]
@@ -108,11 +108,11 @@ class AnalyseLogs:
                             break
                 self.Utility_result.append(self.temp_word)
                 self.temp_word = ''
-        # print(self.Utility_result)
+
 
     def extract_condcode(self, data_list):
 
-        # print('Extract condcode function')
+
         k = []
         for line in data_list:
             line = line.rstrip('\n')
@@ -120,13 +120,13 @@ class AnalyseLogs:
                 k.append(line[-4:])
         self.condcode_result = self.condcode_result + k
 
-        # print(self.condcode_result)
+
 
     def extract_lib(self, data_list):
 
         temp_lib_flag = False
 
-        # print('extract LIB function')
+
         for line in data_list:
             line = line.rstrip('\n')
             for i in self.Liblist:
@@ -136,7 +136,7 @@ class AnalyseLogs:
                     for char in temp_string:
                         if char != ',':
                             self.temp_word += char
-                            # print(self.temp_word)
+
                         else:
                             break
 
@@ -150,11 +150,11 @@ class AnalyseLogs:
 
             self.Lib_result.append('No system Libraries')
 
-        # print(self.Lib_result)
+
 
     def step_division(self, data_list):
 
-        # print('step_division function')
+
         data = list()
         flag = False
         for line in data_list:
@@ -173,7 +173,7 @@ class AnalyseLogs:
 
     def extract_data_sets(self):
 
-        # print('extract data sets function')
+
         d = c = final = ''
         b = []
         for k in self.step_block:
@@ -192,7 +192,7 @@ class AnalyseLogs:
                     c = c + d[i]
             b.append(c)
             for j in range(len(b)):
-                # print(b[j])
+
                 if b[j] != 'IEF285I' and b[j] != 'KEPT' and b[j] != 'CATALOGED' and b[j] != '' and b[j] != 'RETAINED' \
                         and b[j] != 'IGD104I' and b[j] != 'DDNAME=DISK':
                     final = final + b[j] + ','
@@ -203,11 +203,11 @@ class AnalyseLogs:
             self.step_block = []
         if not self.final_result:
             self.final_result.append('NO DATA SETS FOUND')
-        # print(self.final_result)
+
 
     def extract_abend(self, data_list):
 
-        # print('extract abend function')
+
 
         flag = False
 
@@ -244,13 +244,12 @@ class AnalyseLogs:
         else:
             self.abend_result.append('RUN SUCCESSFULL')
 
-        # print(self.abend_result)
+
         self.res = []
 
     def extract_reason(self, data_list):
 
-        # print('extract reason function')
-        # print(self.jescodes)
+
         k = list()
         # a = ' '
         # cnt = 0
@@ -261,19 +260,13 @@ class AnalyseLogs:
             # IEB311I : CONFLICTION IN DCB PARAMETERS, ABEND =S822 U0000
             for jes in self.jescodes:
                 if line.__contains__(jes):
-                    print('first if')
+                    # print('first if')
                     # print( line )
                     k.append(line)
                     flag = True
                 # DSNU334I  : INVALID DATA FOR TABLES.
                 # IEC031I  : The primary space, and no secondaryspace was requested ABEND = S013
-                # if line.__contains__('DSNU334I') or line.__contains__('IEC031I'):
-                    # print('second if')
-                    # a = a + line
-                    # num = cnt
-                    # a = a + data_list[num]
-                    # flag = True
-        # k.append(a)
+
         if flag:
             self.reason_list.append(k)
         else:
@@ -301,7 +294,7 @@ class AnalyseLogs:
 
                 if g == 'S0CB':
 
-                    print('inside SOCB loop')
+                    # print('inside SOCB loop')
 
                     for line in data_list:
 
@@ -390,7 +383,8 @@ class AnalyseLogs:
 
             df1 = pd.DataFrame(self.key_result)
             df1 = df1.transpose()
-            df1.columns = ["OWNER", "JOB NAME", "JOB CLASS", "JOB ID", "STARTED_TIME", "ENDED_TIME", "RUN TIME", "CPU"]
+            df1.columns = ["OWNER", "JOB NAME", "JOB CLASS", "JOB ID", "STARTED_TIME", "ENDED_TIME", "RUN TIME", "CPU",
+                           "Filename"]
             # print(df1)
             df2 = pd.DataFrame(self.total_steps)
             df2.columns = ["STEPS IN JCL"]
@@ -408,19 +402,25 @@ class AnalyseLogs:
             # print(df1)
             df = pd.concat([df1, df2, df3, df4], axis=1)
             # print(df)
-            print(df)
-            df = df[['JOB NAME', 'OWNER', 'JOB CLASS', 'JOB ID', 'RUN TIME', 'CPU', 'STEPS IN JCL', 'UTILITY/STEP NAME',
+            # print(df)
+            df = df[['JOB NAME', 'OWNER', 'JOB CLASS', 'JOB ID', 'RUN TIME', 'CPU', 'Filename', 'STEPS IN JCL',
+                     'UTILITY/STEP NAME',
                      'COND CODES', 'RUN STATUS', 'STEP WISE DATA SETS', 'STARTED_TIME', 'ENDED_TIME',
                      'STEP AND DBRM LIBS', 'JOB INFO']]
-            # df.sort_values(by=['JOB NAME'], inplace=True)
-            df.to_csv(r'C:\Users\m1055934\Desktop\Lagacy_Knowledge_builder_op.csv', index=False, mode='a', header=False)
+            # df.sort_values( by=['JOB NAME'], inplace=True )
+            # df.drop_duplicates(subset=['JOB ID', 'STEPS IN JCL'], keep='last', inplace=True)
+
+            df = df[df['JOB ID'].isnull() | ~df[df['JOB ID'].notnull()].duplicated(subset='JOB ID',keep='last')]
+
+            df.to_csv(r'C:\Users\m1055934\Desktop\Lagacy_Knowledge_builder.csv', index=False, mode='a')
 
         else:
 
             # print('Abended jobs')
             df5 = pd.DataFrame(self.key_result)
             df5 = df5.transpose()
-            df5.columns = ["OWNER", "JOB NAME", "JOB CLASS", "JOB ID", "STARTED_TIME", "ENDED_TIME", "RUN TIME", "CPU"]
+            df5.columns = ["OWNER", "JOB NAME", "JOB CLASS", "JOB ID", "STARTED_TIME", "ENDED_TIME", "RUN TIME", "CPU",
+                           "FileName"]
             df6 = pd.DataFrame(self.total_steps)
             df6.columns = ["STEPS IN JCL"]
             df6['UTILITY/STEP NAME'] = self.Utility_result
@@ -435,12 +435,13 @@ class AnalyseLogs:
             df5['JOB INFO'] = self.job_info
             dataf = pd.concat([df5, df6, df7, df8], axis=1)
             # print(dataf)
-            print(dataf)
-            dataf = dataf[['JOB NAME', 'OWNER', 'JOB CLASS', 'JOB ID', 'RUN TIME', 'CPU', 'STEPS IN JCL',
+            # print(dataf)
+            dataf = dataf[['JOB NAME', 'OWNER', 'JOB CLASS', 'JOB ID', 'RUN TIME', 'CPU', 'FileName', 'STEPS IN JCL',
                            'UTILITY/STEP NAME', 'COND CODES', 'RUN STATUS', 'REASON FOR ABEND', 'MORE ABEND INFO',
                            'STEP WISE DATA SETS', 'STARTED_TIME', 'ENDED_TIME', 'STEP AND DBRM LIBS', 'JOB INFO']]
             # dataf.sort_values( by=['JOB NAME'], inplace=True )
-            dataf.to_csv(r'C:\Users\m1055934\Desktop\ABEND_ANALYSIS_op.csv', index=False, mode='a', header=False)
+            dataf.drop_duplicates( subset="JOB ID")
+            dataf.to_csv(r'C:\Users\m1055934\Desktop\ABEND_Analysis.csv', index=False, mode='a')
 
         self.key_result.clear()
         self.total_steps.clear()
@@ -455,5 +456,3 @@ class AnalyseLogs:
         self.temp_ab_res.clear()
         self.job_info.clear()
         self.temp_job_info.clear()
-
-

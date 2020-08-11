@@ -23,8 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.Log_Analysis),
     path('Log_options/', views.Log_options),
-    path('Graph_analysis/', views.Graph_analysis)
-
+    path('Graph_analysis/', views.Graph_analysis),
+    path('Insert_mongodb/', views.Insert_mongodb)
 ]
 
 if settings.DEBUG:
